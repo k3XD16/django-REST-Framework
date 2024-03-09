@@ -4,10 +4,8 @@ import requests
 # endpoints = 'https://httpbin.org/'
 endpoints = 'http://localhost:8000/api/'
 
-res = requests.get(endpoints)
+res = requests.get(endpoints , params={"abc": 212},json={"hi": "Hello world"})
 
-print(res.json())
-print("") 
+print(res.text)
 print(res.status_code)
-print("")
-print(res.json()['greet'])
+print(res.json())
