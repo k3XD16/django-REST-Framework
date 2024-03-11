@@ -18,7 +18,7 @@ class Product(models.Model):
             return "%.2f" %(float(self.price) * 0.94)
         
         elif self.brand == "Nothing":
-            return self.price
+            return None
         
         else:
             return "%.2f" %(float(self.price) * 0.90)
@@ -32,12 +32,11 @@ class Product(models.Model):
         
         elif self.brand == "Nothing":
             return "No OFFer"
-            
         else:
             return "Flat 10% OFF"
     
     def availability(self):
         if self.sale_price != self.price:
-            return True
+            return "YES"
         else:
-            return False
+            return "NO"
