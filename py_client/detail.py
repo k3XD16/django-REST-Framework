@@ -7,3 +7,4 @@ endpoint = f'http://localhost:8000/api/products/{id}/'
 res = requests.get(endpoint)
 
 print(res.json())
+# print(res.text)
