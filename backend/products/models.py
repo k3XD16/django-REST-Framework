@@ -18,7 +18,10 @@ class Product(models.Model):
             return "%.2f" %(float(self.price) * 0.94)
         
         elif self.brand == "Nothing":
-            return None
+            if self.model == "Phone(2)":
+                return "%.2f" %(float(self.price) * 0.95)
+            else:
+                return None
         
         else:
             return "%.2f" %(float(self.price) * 0.90)
@@ -31,7 +34,10 @@ class Product(models.Model):
             return "Flat 6% OFF"
         
         elif self.brand == "Nothing":
-            return "No OFFer"
+            if self.model == "Phone(2)":
+                return "Flat 5% OFF"
+            else:
+                return "No OFFer"
         else:
             return "Flat 10% OFF"
     
