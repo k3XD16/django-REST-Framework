@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics , mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -67,6 +67,20 @@ class ProductListAPIView(generics.ListAPIView):
     
 product_list_view = ProductListAPIView.as_view()
 
+class ProductMixinView(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    def get(self, request, *args,**kwargs):
+        print(args,kwargs)
+        return self.list(request, *args,**kwargs)
+
+product_mixin_view = ProductMixinView.as_view()
 
 # PRODUCT ALTER API VIEW
 @api_view(["GET", "POST"])
@@ -98,3 +112,109 @@ def product_alt_view(request,pk=None,*args,**kwargs):
                 serializer.save(model=model)
             return Response(serializer.data)
         return Response({"invalid": "not good data"} , status=400)
+    
+    
+
+
+# MIXINS
+class ProductsView(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    def get(self, request, *args,**kwargs):
+        print(args,kwargs)
+        pk = kwargs.get("pk")
+        if pk is not None:
+            return self.retrieve(request, *args,**kwargs)
+        return self.list(request, *args,**kwargs)
+
+product_mixin_view = ProductsView.as_view()
+
+
+class ProductListView(
+    mixins.ListModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # lookup_field = 'pk'
+    
+    def get(self, request, *args,**kwargs):
+        # print(args,kwargs)
+        return self.list(request, *args,**kwargs)
+
+product_list_mixin = ProductListView.as_view()
+
+
+class ProductCreateView(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    # lookup_field = 'pk'
+    
+    def get(self, request, *args,**kwargs):
+        # print(args,kwargs)
+        return self.list(request, *args,**kwargs)
+    
+    def post(self, request, *args,**kwargs):
+        # print(args,kwargs)
+        return self.create(request, *args,**kwargs)
+
+product_create_mixin = ProductCreateView.as_view()
+
+
+class ProductRetrieveView(
+    mixins.RetrieveModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    def get(self, request, *args,**kwargs):
+        print(args,kwargs)
+        return self.retrieve(request, *args,**kwargs)
+
+product_retrieve_mixin = ProductRetrieveView.as_view()
+
+
+class ProductUpdateView(
+    mixins.UpdateModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    def patch(self, request, *args,**kwargs):
+        print(args,kwargs)
+        return self.partial_update(request, *args,**kwargs)
+    
+    def update(self, request, *args,**kwargs):
+        print(args,kwargs)
+        return self.update(request, *args,**kwargs)
+
+product_update_mixin = ProductUpdateView.as_view()
+
+
+class ProductDestroyView(
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    def delete(self, request, *args,**kwargs):
+        print(args,kwargs)
+        return self.destroy(request, *args,**kwargs)
+
+product_destroy_mixin = ProductDestroyView.as_view()
