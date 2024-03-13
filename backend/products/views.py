@@ -98,6 +98,7 @@ def product_alt_view(request,pk=None,*args,**kwargs):
             # queryset = Product.objects.filter(pk=pk)
             # if not queryset.exists():
             #     raise Http404
+            
         #list view
         queryset = Product.objects.all()
         data = ProductSerializer(queryset, many=True).data
