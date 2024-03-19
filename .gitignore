@@ -130,6 +130,7 @@ env.bak/
 venv.bak/
 py_client
 
+
 # Spyder project settings
 .spyderproject
 .spyproject
